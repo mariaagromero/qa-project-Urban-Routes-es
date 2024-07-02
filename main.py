@@ -144,7 +144,8 @@ class TestUrbanRoutes:
         button_round = self.driver.find_element(By.CLASS_NAME, "button.round")
         button_round.click()
         time.sleep(2)
-        self.routes_page.select_comfort_tariff()
+        comfort_tariff = self.driver.find_element(By.CLASS_NAME, "comfort.tariff" )
+        comfort_tariff.click()
         time.sleep(2)
 
 
