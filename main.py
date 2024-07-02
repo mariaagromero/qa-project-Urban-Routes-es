@@ -1,4 +1,6 @@
 import time
+from lib2to3.pgen2 import driver
+
 import data
 from selenium import webdriver
 from selenium.webdriver import Keys
@@ -37,59 +39,69 @@ def retrieve_phone_code(driver) -> str:
 class UrbanRoutesPage:
     from_field = (By.ID, 'from')
     to_field = (By.ID, 'to')
-    comfort_tariff = (By.XPATH, "//input[@value='comfort']")
-    phone_field = (By.ID, 'phone')
-    add_card_button = (By.ID, 'add_card')
-    card_number_field = (By.ID, 'card_number')
-    card_code_field = (By.ID, 'code')
-    link_button = (By.ID, 'link')
-    message_field = (By.ID, 'message')
-    blanket_checkbox = (By.ID, 'blanket')
-    tissues_checkbox = (By.ID, 'tissues')
-    ice_cream_selector = (By.ID, 'ice_cream')
-    find_taxi_button = (By.ID, 'find_taxi')
+    button_round = (By.CLASS_NAME, "button.round")
+    comfort_tariff = (By.CLASS_NAME, "i-button tcard-i active")
+  #  phone_field = (By.ID, 'phone')
+  #  add_card_button = (By.ID, 'add_card')
+  #  card_number_field = (By.ID, 'card_number')
+  #  card_code_field = (By.ID, 'code')
+  #  link_button = (By.ID, 'link')
+  #  message_field = (By.ID, 'message')
+  #  blanket_checkbox = (By.ID, 'blanket')
+  #  tissues_checkbox = (By.ID, 'tissues')
+  #  ice_cream_selector = (By.ID, 'ice_cream')
+  #  find_taxi_button = (By.ID, 'find_taxi')
 
     def __init__(self, driver):
         self.driver = driver
 
-    def set_from(self, from_address):
-        self.driver.find_element(*self.from_field).send_keys(from_address)
+    def set_from(self, address):
+        from_element = self.driver.find_element(*self.from_field)
+        from_element.clear()
+        from_element.send_keys(address)
 
-    def set_to(self, to_address):
-        self.driver.find_element(*self.to_field).send_keys(to_address)
+    def set_to(self, address):
+        to_element = self.driver.find_element(*self.to_field)
+        to_element.clear()
+        to_element.send_keys(address)
+
+    def call_taxi(self):
+        button_round_element = self.driver.find_element(*self.button_round)
+        button_round_element.click()
 
     def select_comfort_tariff(self):
-        WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located(self.comfort_tariff)
-        )
-        self.driver.find_element(*self.comfort_tariff).click()
+        comfort_tariff_element = self.driver.find_element(*self.comfort_tariff)
+        comfort_tariff_element.click()
 
-    def set_phone(self, phone_number):
-        self.driver.find_element(*self.phone_field).send_keys(phone_number)
+  #  def set_phone(self, phone_number):
+    #    self.driver.find_element(*self.phone_field).send_keys(phone_number)
 
-    def add_credit_card(self, card_number, card_code):
-        self.driver.find_element(*self.add_card_button).click()
-        self.driver.find_element(*self.card_number_field).send_keys(card_number)
-        self.driver.find_element(*self.card_code_field).send_keys(card_code)
-        self.driver.find_element(*self.card_code_field).send_keys(Keys.TAB)
-        WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable(self.link_button)
-        ).click()
+   # def add_credit_card(self, card_number, card_code):
+     #   self.driver.find_element(*self.add_card_button).click()
+      #  self.driver.find_element(*self.card_number_field).send_keys(card_number)
+       # self.driver.find_element(*self.card_code_field).send_keys(card_code)
+        #self.driver.find_element(*self.card_code_field).send_keys(Keys.TAB)
+        #WebDriverWait(self.driver, 10).until(
+         #   EC.element_to_be_clickable(self.link_button)
+       # ).click()
 
-    def set_message(self, message):
-        self.driver.find_element(*self.message_field).send_keys(message)
+    #def set_message(self, message):
+     #   self.driver.find_element(*self.message_field).send_keys(message)
 
-    def request_blanket_and_tissues(self):
-        self.driver.find_element(*self.blanket_checkbox).click()
-        self.driver.find_element(*self.tissues_checkbox).click()
+    # def request_blanket_and_tissues(self):
+      #  self.driver.find_element(*self.blanket_checkbox).click()
+       # self.driver.find_element(*self.tissues_checkbox).click()
 
-    def request_ice_cream(self, quantity):
-        selector = self.driver.find_element(*self.ice_cream_selector)
-        for _ in range(quantity):
-            selector.send_keys(Keys.UP)
+    #def request_ice_cream(self, quantity):
+     #   selector = self.driver.find_element(*self.ice_cream_selector)
+      #  for _ in range(quantity):
+       #     selector.send_keys(Keys.UP)
 
-    def find_taxi(self):
-        self.driver.find_element(*self.find_taxi_button).click()
+    #def find_taxi(self):
+           # self.driver.find_element(*self.find_taxi_button).click()
+
+    def call_taxi(self):
+            self.driver.find_element(*self.button_round).click()
 
     def get_from(self):
         return self.driver.find_element(*self.from_field).get_property('value')
@@ -126,30 +138,39 @@ class TestUrbanRoutes:
         time.sleep(2)
         assert self.routes_page.get_from() == data.address_from
         assert self.routes_page.get_to() == data.address_to
-
-    def test_complete_taxi_order(self):
         time.sleep(2)
-        self.routes_page.set_from(data.address_from)
+        self.routes_page.call_taxi()
         time.sleep(2)
-        self.routes_page.set_to(data.address_to)
+        button_round = self.driver.find_element(By.CLASS_NAME, "button.round")
+        button_round.click()
         time.sleep(2)
         self.routes_page.select_comfort_tariff()
         time.sleep(2)
-        self.routes_page.set_phone(data.phone_number)
-        time.sleep(2)
-        self.routes_page.add_credit_card(data.card_number, data.card_code)
-        phone_code = retrieve_phone_code(self.driver)
-        time.sleep(2)
-        self.routes_page.set_message(data.message_for_driver)
-        time.sleep(2)
-        self.routes_page.request_blanket_and_tissues()
-        time.sleep(2)
-        self.routes_page.request_ice_cream(2)
-        time.sleep(2)
-        self.routes_page.find_taxi()
-        time.sleep(2)
 
-        # Aquí puedes agregar más aserciones según lo que esperes después de hacer clic en "find_taxi"
+
+#    def test_complete_taxi_order(self):
+#        time.sleep(2)
+#       self.routes_page.set_from(data.address_from)
+#       time.sleep(2)
+#        self.routes_page.set_to(data.address_to)
+#      time.sleep(2)
+#       self.routes_page.select_comfort_tariff()
+#     time.sleep(2)
+#      self.routes_page.set_phone(data.phone_number)
+#    time.sleep(2)
+#      self.routes_page.add_credit_card(data.card_number, data.card_code)
+#      phone_code = retrieve_phone_code(self.driver)
+#     time.sleep(2)
+#      self.routes_page.set_message(data.message_for_driver)
+#     time.sleep(2)
+#       self.routes_page.request_blanket_and_tissues()
+#     time.sleep(2)
+#       self.routes_page.request_ice_cream(2)
+#     time.sleep(2)
+#       self.routes_page.find_taxi()
+#     time.sleep(2)
+
+# Aquí puedes agregar más aserciones según lo que esperes después de hacer clic en "find_taxi"
 
 
 if __name__ == "__main__":
