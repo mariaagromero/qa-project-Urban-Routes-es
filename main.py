@@ -109,8 +109,13 @@ class UrbanRoutesPage:
     def get_to(self):
         return self.driver.find_element(*self.to_field).get_property('value')
 
+    def get_comfort_tariff(self):
+        return self.driver.find_element(*self.comfort_tariff).get_property('value')
+
+
 
 class TestUrbanRoutes:
+    test_set_route = None
     driver = None
 
     @classmethod
@@ -129,7 +134,6 @@ class TestUrbanRoutes:
     def setup_method(self):
         self.driver.get(data.urban_routes_url)
         self.routes_page = UrbanRoutesPage(self.driver)
-
     def test_set_route(self):
         time.sleep(2)
         self.routes_page.set_from(data.address_from)
@@ -170,8 +174,6 @@ class TestUrbanRoutes:
 #     time.sleep(2)
 #       self.routes_page.find_taxi()
 #     time.sleep(2)
-
-# Aquí puedes agregar más aserciones según lo que esperes después de hacer clic en "find_taxi"
 
 
 if __name__ == "__main__":
