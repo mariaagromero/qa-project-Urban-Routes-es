@@ -57,6 +57,7 @@ class UrbanRoutesPage:
     plus_button = (By.CLASS_NAME, 'counter-plus')
     pedir_taxi_button = (By.XPATH, '//*[@id="root"]/div/div[3]/div[4]/button')
 
+
     def __init__(self, driver):
         self.driver = driver
 
