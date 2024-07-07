@@ -6,7 +6,7 @@ Este proyecto utiliza Selenium para automatizar pruebas de la página web de Urb
 
 ### Estructura del Proyecto
 #### Archivos Principales
-**data.py: **Contiene los datos necesarios para las pruebas, como URLs, direcciones, números de teléfono, numero de tarjeta y codigo CVV.
+**data.py:** Contiene los datos necesarios para las pruebas, como URLs, direcciones, números de teléfono, numero de tarjeta y codigo CVV.
 **test_urban_routes.py:** Contiene las pruebas automatizadas usando Selenium.
 
 #### Código Principal
@@ -19,23 +19,23 @@ Recupera el código de confirmación del teléfono desde los registros de rendim
 Una clase que contiene todos los selectores y métodos necesarios para interactuar con la página de UrbanRoutes.
 
 ##### Métodos principales:
-**set_from(address): **Establece la dirección de origen.
-**set_to(address): **Establece la dirección de destino.
+**set_from(address):** Establece la dirección de origen.
+**set_to(address):** Establece la dirección de destino.
 **call_taxi():** Solicita un taxi.
 **select_comfort_tariff():** Selecciona la tarifa Comfort.
-**select_phone_button(): **Selecciona el botón de número de teléfono.
+**select_phone_button():** Selecciona el botón de número de teléfono.
 **set_phone(phone):** Establece el número de teléfono.
 **select_next_button():** Selecciona el botón Siguiente.
-**set_code(code): **Establece el código SMS.
+**set_code(code):** Establece el código SMS.
 **select_confirm_button():** Selecciona el botón Confirmar.
 **select_payment_method_button():** Selecciona el botón Método de Pago.
 **select_add_card_button():** Selecciona el botón para añadir tarjeta.
-**select_add_card_number(card): **Establece el número de tarjeta.
+**select_add_card_number(card):** Establece el número de tarjeta.
 **select_add_card_cvv(cvv):** Establece el código CVV.
-**select_agregar_button(): **Selecciona el botón Agregar.
+**select_agregar_button():** Selecciona el botón Agregar.
 **select_close_popup_button():** Selecciona el botón para cerrar el popup.
 **select_click_message_field():** Selecciona el campo de mensaje.
-**set_message_field(message): **Establece el mensaje para el conductor.
+**set_message_field(message):** Establece el mensaje para el conductor.
 **select_mantas_panuelos_button():** Selecciona el botón de mantas y pañuelos.
 **select_plus_button():** Selecciona el botón para incrementar la cantidad.
 **select_pedir_taxi_button():** Selecciona el botón para pedir el taxi.
@@ -48,7 +48,7 @@ Clase que contiene los métodos de configuración y prueba
 **Métodos principales:**
 **setup_class(cls):** Configura el entorno del navegador.
 **teardown_class(cls):** Cierra el navegador.
-**setup_method(self): **Abre la página de UrbanRoutes.
+**setup_method(self):** Abre la página de UrbanRoutes.
 
 **test_urban_route_page(self):** Realiza una prueba completa del flujo de trabajo de la página, incluyendo:
 - Establecer la dirección de origen y destino.
