@@ -1,12 +1,11 @@
 import time
-from lib2to3.pgen2 import driver
+
 
 import data
 from selenium import webdriver
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
+
 
 
 # no modificar
@@ -40,17 +39,24 @@ class UrbanRoutesPage:
     from_field = (By.ID, 'from')
     to_field = (By.ID, 'to')
     button_round = (By.CLASS_NAME, "button.round")
-    comfort_tariff = (By.CLASS_NAME, "i-button tcard-i active")
-  #  phone_field = (By.ID, 'phone')
-  #  add_card_button = (By.ID, 'add_card')
-  #  card_number_field = (By.ID, 'card_number')
-  #  card_code_field = (By.ID, 'code')
-  #  link_button = (By.ID, 'link')
-  #  message_field = (By.ID, 'message')
-  #  blanket_checkbox = (By.ID, 'blanket')
-  #  tissues_checkbox = (By.ID, 'tissues')
-  #  ice_cream_selector = (By.ID, 'ice_cream')
-  #  find_taxi_button = (By.ID, 'find_taxi')
+    comfort_tariff = (By.XPATH, '//div[contains(@class, "tcard") and .//div[contains(@class, "tcard-title") and text()="Comfort"]]')
+    phone_button = (By.XPATH, "//div[@class='np-button']//div[@class='np-text' and text()='Número de teléfono']")
+    phone_field = (By.ID, 'phone')
+    next_button = (By.XPATH, "//button[@type='submit' and @class='button full' and text()='Siguiente']")
+    sms_code = (By.ID, "code")
+    confirm_button = (By.XPATH, "//button[text()='Confirmar']")
+    payment_method_button = (By.XPATH, "//div[@class='pp-text' and text()='Método de pago']")
+    add_card_button = (By.XPATH, '//*[@id="root"]/div/div[2]/div[2]/div[1]/div[2]/div[3]/div[2]')
+    add_card_number = (By.ID, 'number')
+    add_card_cvv = (By.XPATH, '(//*[@id="code"])[2]')
+    agregar_button = (By.XPATH, '//*[@id="root"]/div/div[2]/div[2]/div[2]/form/div[3]/button[1]')
+    close_popup_button = (By.XPATH, '//*[@id="root"]/div/div[2]/div[2]/div[1]/button')
+    click_message_field = (By.XPATH, '//*[@id="root"]/div/div[3]/div[3]/div[2]/div[2]/div[3]/div/label')
+    message_field = (By.ID, 'comment')
+    mantas_panuelos_button = (By.CLASS_NAME, 'slider')
+    plus_button = (By.CLASS_NAME, 'counter-plus')
+    pedir_taxi_button = (By.XPATH, '//*[@id="root"]/div/div[3]/div[4]/button')
+
 
     def __init__(self, driver):
         self.driver = driver
@@ -73,35 +79,75 @@ class UrbanRoutesPage:
         comfort_tariff_element = self.driver.find_element(*self.comfort_tariff)
         comfort_tariff_element.click()
 
-  #  def set_phone(self, phone_number):
-    #    self.driver.find_element(*self.phone_field).send_keys(phone_number)
+    def select_phone_button(self):
+        phone_button_element = self.driver.find_element(*self.phone_button)
+        phone_button_element.click()
 
-   # def add_credit_card(self, card_number, card_code):
-     #   self.driver.find_element(*self.add_card_button).click()
-      #  self.driver.find_element(*self.card_number_field).send_keys(card_number)
-       # self.driver.find_element(*self.card_code_field).send_keys(card_code)
-        #self.driver.find_element(*self.card_code_field).send_keys(Keys.TAB)
-        #WebDriverWait(self.driver, 10).until(
-         #   EC.element_to_be_clickable(self.link_button)
-       # ).click()
+    def set_phone(self, phone):
+        phone_field_element = self.driver.find_element(*self.phone_field)
+        phone_field_element.clear()
+        phone_field_element.send_keys(phone)
 
-    #def set_message(self, message):
-     #   self.driver.find_element(*self.message_field).send_keys(message)
+    def select_next_button(self):
+        next_button_element = self.driver.find_element(*self.next_button)
+        next_button_element.click()
 
-    # def request_blanket_and_tissues(self):
-      #  self.driver.find_element(*self.blanket_checkbox).click()
-       # self.driver.find_element(*self.tissues_checkbox).click()
+    def set_code(self, code):
+        sms_code_element = self.driver.find_element(*self.sms_code)
+        sms_code_element.clear()
+        sms_code_element.send_keys(code)
 
-    #def request_ice_cream(self, quantity):
-     #   selector = self.driver.find_element(*self.ice_cream_selector)
-      #  for _ in range(quantity):
-       #     selector.send_keys(Keys.UP)
+    def select_confirm_button(self):
+        confirm_button_element = self.driver.find_element(*self.confirm_button)
+        confirm_button_element.click()
 
-    #def find_taxi(self):
-           # self.driver.find_element(*self.find_taxi_button).click()
+    def select_payment_method_button(self):
+        payment_method_button_element = self.driver.find_element(*self.payment_method_button)
+        payment_method_button_element.click()
 
-    def call_taxi(self):
-            self.driver.find_element(*self.button_round).click()
+    def select_add_card_button(self):
+        add_card_button_element = self.driver.find_element(*self.add_card_button)
+        add_card_button_element.click()
+
+    def select_add_card_number(self, card):
+        add_card_number_element = self.driver.find_element(*self.add_card_number)
+        add_card_number_element.clear()
+        add_card_number_element.send_keys(card)
+
+    def select_add_card_cvv(self, cvv):
+        add_card_cvv_element = self.driver.find_element(*self.add_card_cvv)
+        add_card_cvv_element.clear()
+        add_card_cvv_element.send_keys(cvv)
+
+    def select_agregar_button(self):
+        agregar_button_element = self.driver.find_element(*self.agregar_button)
+        agregar_button_element.click()
+
+    def select_close_popup_button(self):
+        close_popup_button_element = self.driver.find_element(*self.close_popup_button)
+        close_popup_button_element.click()
+
+    def select_click_message_field(self):
+        click_message_field_element = self.driver.find_element(*self.click_message_field)
+        click_message_field_element.click()
+
+    def set_message_field(self, message):
+        message_field_element = self.driver.find_element(*self.message_field)
+        message_field_element.clear()
+        message_field_element.send_keys(message)
+
+    def select_mantas_panuelos_button(self):
+        mantas_panuelos_button_element = self.driver.find_element(*self.mantas_panuelos_button)
+        mantas_panuelos_button_element.click()
+
+    def select_plus_button(self):
+        plus_button_element = self.driver.find_element(*self.plus_button)
+        plus_button_element.click()
+        plus_button_element.click()
+
+    def select_pedir_taxi_button(self):
+        pedir_taxi_button_element = self.driver.find_element(*self.pedir_taxi_button)
+        pedir_taxi_button_element.click()
 
     def get_from(self):
         return self.driver.find_element(*self.from_field).get_property('value')
@@ -109,13 +155,8 @@ class UrbanRoutesPage:
     def get_to(self):
         return self.driver.find_element(*self.to_field).get_property('value')
 
-    def get_comfort_tariff(self):
-        return self.driver.find_element(*self.comfort_tariff).get_property('value')
-
-
 
 class TestUrbanRoutes:
-    test_set_route = None
     driver = None
 
     @classmethod
@@ -134,49 +175,49 @@ class TestUrbanRoutes:
     def setup_method(self):
         self.driver.get(data.urban_routes_url)
         self.routes_page = UrbanRoutesPage(self.driver)
-    def test_set_route(self):
+
+    def test_urban_route_page(self):
         time.sleep(2)
         self.routes_page.set_from(data.address_from)
-        time.sleep(2)
+        assert self.routes_page.get_from() == data.address_from, f"Expected 'from' field to be '{data.address_from}', but got '{self.routes_page.get_from()}'"
+        time.sleep(1)
         self.routes_page.set_to(data.address_to)
-        time.sleep(2)
-        assert self.routes_page.get_from() == data.address_from
-        assert self.routes_page.get_to() == data.address_to
-        time.sleep(2)
+        assert self.routes_page.get_to() == data.address_to, f"Expected 'to' field to be '{data.address_to}', but got '{self.routes_page.get_to()}'"
+        time.sleep(1)
         self.routes_page.call_taxi()
+        time.sleep(1)
+        self.routes_page.select_comfort_tariff()
+        time.sleep(1)
+        self.routes_page.select_phone_button()
+        self.routes_page.set_phone(data.phone_number)
+        time.sleep(1)
+        self.routes_page.select_next_button()
         time.sleep(2)
-        button_round = self.driver.find_element(By.CLASS_NAME, "button.round")
-        button_round.click()
+        sms_code = retrieve_phone_code(self.driver)
+        self.routes_page.set_code(sms_code)
         time.sleep(2)
-        comfort_tariff = self.driver.find_element(By.CLASS_NAME, "comfort.tariff" )
-        comfort_tariff.click()
+        self.routes_page.select_confirm_button()
+        time.sleep(3)
+        self.routes_page.select_payment_method_button()
         time.sleep(2)
+        self.routes_page.select_add_card_button()
+        time.sleep(2)
+        self.routes_page.select_add_card_number(data.card_number)
+        time.sleep(3)
+        self.routes_page.select_add_card_cvv(data.card_code)
+        time.sleep(2)
+        self.routes_page.select_agregar_button()
+        time.sleep(2)
+        self.routes_page.select_close_popup_button()
+        time.sleep(2)
+        self.routes_page.select_click_message_field()
+        time.sleep(2)
+        self.routes_page.set_message_field(data.message_for_driver)
+        time.sleep(2)
+        self.routes_page.select_mantas_panuelos_button()
+        time.sleep(2)
+        self.routes_page.select_plus_button()
+        time.sleep(2)
+        self.routes_page.select_pedir_taxi_button()
+        time.sleep(45)
 
-
-#    def test_complete_taxi_order(self):
-#        time.sleep(2)
-#       self.routes_page.set_from(data.address_from)
-#       time.sleep(2)
-#        self.routes_page.set_to(data.address_to)
-#      time.sleep(2)
-#       self.routes_page.select_comfort_tariff()
-#     time.sleep(2)
-#      self.routes_page.set_phone(data.phone_number)
-#    time.sleep(2)
-#      self.routes_page.add_credit_card(data.card_number, data.card_code)
-#      phone_code = retrieve_phone_code(self.driver)
-#     time.sleep(2)
-#      self.routes_page.set_message(data.message_for_driver)
-#     time.sleep(2)
-#       self.routes_page.request_blanket_and_tissues()
-#     time.sleep(2)
-#       self.routes_page.request_ice_cream(2)
-#     time.sleep(2)
-#       self.routes_page.find_taxi()
-#     time.sleep(2)
-
-
-if __name__ == "__main__":
-    import pytest
-
-    pytest.main()
