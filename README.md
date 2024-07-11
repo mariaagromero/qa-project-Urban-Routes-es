@@ -92,7 +92,8 @@ Se usa en las pruebas para validar que los valores esperados coincidan con los v
 
 #### Para Ejecutar las Pruebas se necesitará:
 -  Tener Python y Selenium instalados.
-- Ejecutar pytest para iniciar las pruebas.
+- Ejecutar el siguiente comando para iniciar las pruebas:
+           **pytest folder/de/proyecto/tests.py**
 
 ### Notas extra:
 Algunas funciones utilizan ***time.sleep()*** para manejar tiempos de espera entre cada acción.
