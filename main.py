@@ -318,4 +318,3 @@ class TestUrbanRoutes:
         assert pedir_taxi_button_element.is_enabled() and pedir_taxi_button_element.is_displayed(), "Pedir taxi button was not clicked successfully."
         time.sleep(5)
 
-
